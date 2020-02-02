@@ -1,4 +1,4 @@
-package com.bartosz.demo;
+package com.bartosz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
