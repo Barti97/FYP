@@ -19,9 +19,17 @@ public class ORSRequests {
 		ArrayList<LatLng> waypoints = new ArrayList<>();
 		LatLng start = startFinishCoords.get(0);
 		LatLng end = startFinishCoords.get(1);
-		String resDirections = OpenRouteServiceAPI.executePost(
-				"https://api.openrouteservice.org/v2/directions/driving-car/geojson",
-				"{\"coordinates\":[[" + start.lng + "," + start.lat + "],[" + end.lng + "," + end.lat + "]]}");
+		
+		String url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
+		String coordinates = "\"coordinates\":[[" + start.lng + "," + start.lat + "],[" + end.lng + "," + end.lat + "]]";
+		String incident = "{\"type\": \"Polygon\",\"coordinates\": [[[-8.491230010986328,51.87557691274962],[-8.489534854888916,51.87557691274962],[-8.489534854888916,51.87612005082275],[-8.491230010986328,51.87612005082275],[-8.491230010986328,51.87557691274962]]]}";
+		
+		String param = "{" + coordinates + ",\"options\":{\"avoid_polygons\":" + incident + "}}";
+		
+		System.out.println(param);
+		
+		String resDirections = OpenRouteServiceAPI.executePost(url, param);
+		
 		JsonObject jsonObject = JsonParser.parseString(resDirections).getAsJsonObject();
 		JsonObject features = jsonObject.getAsJsonArray("features").get(0).getAsJsonObject();
 		JsonObject geometry = features.getAsJsonObject("geometry");

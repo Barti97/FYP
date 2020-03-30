@@ -10,6 +10,7 @@ import java.net.URL;
 public class OpenRouteServiceAPI {
 
 	public static String executePost(String targetURL, String urlParameters) {
+		System.out.println("urlParameters: " + urlParameters);
 		HttpURLConnection connection = null;
 
 		try {

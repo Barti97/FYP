@@ -9,9 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DirectionsRequest {
-
-	private String start;
-	private String end;
+public class IncidentsRequest {
 	
+	private String type;
+	private String location;
+	private String userEmail;
+
 }
