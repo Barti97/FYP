@@ -9,10 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class IncidentsRequest {
-	
-	private String type;
-	private Coordinates location;
-	private String userEmail;
+public class Coordinates {
 
+	private double lat;
+	private double lng;
+	
+	public String toString() {
+		return "" + this.lat + "," + this.lng;
+	}
 }

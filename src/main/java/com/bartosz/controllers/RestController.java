@@ -36,6 +36,9 @@ public class RestController {
 	
 	@PostMapping(path = "/incidents", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String directions(@RequestBody IncidentsRequest request) {
+		System.out.println(request.getType());
+		System.out.println(request.getLocation());
+		System.out.println(request.getUserEmail());
 		User sender = userService.findByEmail(request.getUserEmail());
 		if (sender == null) {
 			return "{\"result\":\"FAILED TO FIND USER\"}";

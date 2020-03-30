@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity 
 public class Incident {
 
 	@Id
@@ -28,16 +28,26 @@ public class Incident {
 	private String typeOfIncident;
 
 	@Column(nullable = false)
-	private String incidentCoordinates;
-
+	private double lat;
+	
+	@Column(nullable = false)
+	private double lng;
+	
 	@ManyToOne
 	@JoinColumn(name="owner")
 	private User owner;
 
-	public Incident(String typeOfIncident, String incidentCoordinates, User owner) {
+	public Incident(String typeOfIncident, Coordinates incidentCoordinates, User owner) {
 		this.typeOfIncident = typeOfIncident;
-		this.incidentCoordinates = incidentCoordinates;
 		this.owner = owner;
+
+		if(incidentCoordinates != null) {
+			this.lat = incidentCoordinates.getLat();
+			this.lng = incidentCoordinates.getLng();
+		} else {
+			this.lat = 0.0;
+			this.lng = 0.0;
+		}
 	}
 
 	public String toString() {
@@ -45,7 +55,7 @@ public class Incident {
 		if (this.incidentId != 0) {
 			output += this.incidentId;
 		}
-		output += "\n\tType: " + this.typeOfIncident + "\n\tCoordinates: " + this.incidentCoordinates;
+		output += "\n\tType: " + this.typeOfIncident + "\n\tCoordinates: " + this.lat + "," + this.lng ;
 		return output;
 	}
 
