@@ -3,6 +3,8 @@ package com.bartosz.requests;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bartosz.domain.Coordinates;
+import com.bartosz.domain.PlaceResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -60,9 +62,10 @@ public class ORSRequests {
 
 	public static String findPlace(String searchPhrase) {
 		return OpenRouteServiceAPI.executeGet(
-				"https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33&text="
-						+ searchPhrase.replace(" ", "%20") + "&boundary.country=IE&layers=venue&size=1");
+				"https://api.openrouteservice.org/geocode/autocomplete?api_key=5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33&text="
+						+ searchPhrase.replace(" ", "%20") + "&boundary.country=IE&layers=address,venue,neighbourhood");
 	}
+	
 
 	public static LatLng parsePlaceSearch(String searchResult) {
 		System.out.println(searchResult);
@@ -73,5 +76,37 @@ public class ORSRequests {
 		JsonArray coords = geometry.getAsJsonArray("coordinates");
 		return new LatLng(coords.get(1).getAsFloat(), coords.get(0).getAsFloat());
 	}
+	
+	public static List<PlaceResponse> autocompletePlace(String searchPhrase) {
+        String searchRes = OpenRouteServiceAPI.executeGet("https://api.openrouteservice.org/geocode/autocomplete?api_key=5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33&text=" 
+        												   + searchPhrase.replace(" ", "%20") + "&boundary.country=IE&layers=address,venue,neighbourhood");
+
+        return parseAutocompleteSearch(searchRes);
+    }
+
+    public static List<PlaceResponse> parseAutocompleteSearch(String searchResult) {
+
+    	List<PlaceResponse> addresses = new ArrayList<>();
+        
+        JsonObject json = JsonParser.parseString(searchResult).getAsJsonObject();
+        JsonArray features = json.getAsJsonArray("features");
+        
+        for (JsonElement jsonElement : features) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonObject geometry = jsonObject.getAsJsonObject("geometry");
+    		JsonArray coords = geometry.getAsJsonArray("coordinates");
+    		JsonElement label = jsonObject.getAsJsonObject("properties").get("label");
+    		
+//    		for (JsonElement coord : coords) {
+//    			System.out.println(coord.toString());
+//    			
+//    		}
+    		
+    		Coordinates coordinates = new Coordinates(coords.get(1).getAsFloat(),coords.get(0).getAsFloat());
+            addresses.add( new PlaceResponse(label.toString(), coordinates));
+            
+        }
+        return addresses;
+    }
 
 }
