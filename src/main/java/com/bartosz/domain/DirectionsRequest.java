@@ -1,5 +1,7 @@
 package com.bartosz.domain;
 
+import com.google.maps.model.LatLng;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,12 @@ import lombok.Setter;
 @Setter
 public class DirectionsRequest {
 
-	private String start;
-	private String end;
+//	private Coordinates start;
+//	private Coordinates end;
+
+	private LatLng start;
+	private LatLng end;
+	private boolean avoidIncidents;
+	private String preference;
 	
 }

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.google.maps.model.LatLng;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,13 +39,13 @@ public class Incident {
 	@JoinColumn(name="owner")
 	private User owner;
 
-	public Incident(String typeOfIncident, Coordinates incidentCoordinates, User owner) {
+	public Incident(String typeOfIncident, LatLng incidentCoordinates, User owner) {
 		this.typeOfIncident = typeOfIncident;
 		this.owner = owner;
 
 		if(incidentCoordinates != null) {
-			this.lat = incidentCoordinates.getLat();
-			this.lng = incidentCoordinates.getLng();
+			this.lat = incidentCoordinates.lat;
+			this.lng = incidentCoordinates.lng;
 		} else {
 			this.lat = 0.0;
 			this.lng = 0.0;

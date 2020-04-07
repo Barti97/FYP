@@ -30,7 +30,7 @@ public class RestController {
 	
 	@PostMapping(path = "/directions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String directions(@RequestBody DirectionsRequest request) {
-		String res = ORSRequests.getDirections(request.getStart(), request.getEnd());
+		String res = ORSRequests.getDirections(request.getStart(), request.getEnd(), request.isAvoidIncidents(), request.getPreference());
 		if (res == null) {
 			return "{\"error\":\"PARSE_ERROR\"}";
 		}
@@ -63,6 +63,9 @@ public class RestController {
 	@PostMapping(path = "/autocompleteAddress", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PlaceResponse> autocompleteAddress(@RequestBody AddressRequest request) {
 		List<PlaceResponse> res = ORSRequests.autocompletePlace(request.getAddress());
+		for (PlaceResponse pr : res) {
+			System.out.println(pr.getAddress());
+		}
 		if (res == null) {
 			return null;
 		}

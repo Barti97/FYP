@@ -1,5 +1,7 @@
 package com.bartosz.domain;
 
+import com.google.maps.model.LatLng;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.Setter;
 
 public class PlaceResponse {
 	
-	String address;
-	Coordinates coordinates;
+	private String address;
+	private LatLng coordinates;
 
 }
