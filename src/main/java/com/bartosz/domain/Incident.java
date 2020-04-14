@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.maps.model.LatLng;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class Incident {
 	@Column(nullable = false)
 	private double lng;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="owner")
 	private User owner;
@@ -59,6 +61,29 @@ public class Incident {
 		}
 		output += "\n\tType: " + this.typeOfIncident + "\n\tCoordinates: " + this.lat + "," + this.lng ;
 		return output;
+	}
+	
+	public String drawPolygon() {
+		
+		double metre = 0.0000146;
+		
+		LatLng p1 = new LatLng(this.lat + (5 * metre), this.lng - (5 * metre)); // Top left
+		LatLng p2 = new LatLng(this.lat + (5 * metre), this.lng + (5 * metre)); // Top right
+		LatLng p3 = new LatLng(this.lat - (5 * metre), this.lng + (5 * metre)); // Bottom right
+		LatLng p4 = new LatLng(this.lat - (5 * metre), this.lng - (5 * metre)); // Bottom left
+		
+		String p1s = latLngAsArray(p1);
+		String p2s = latLngAsArray(p2);
+		String p3s = latLngAsArray(p3);
+		String p4s = latLngAsArray(p4);
+		
+		String polygon = "[" + p1s + ","  + p2s + "," + p3s + "," + p4s + "," + p1s + "]";
+//		String polygon = p1+p2+p3+p4+p1;
+		return polygon;
+	}
+	
+	private String latLngAsArray(LatLng coord) {
+		return "[" + coord.lng + "," + coord.lat + "]";
 	}
 
 }

@@ -9,9 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.bartosz.dao.RoleDAO;
+import com.bartosz.domain.Incident;
 import com.bartosz.domain.Role;
 import com.bartosz.domain.User;
+import com.bartosz.service.IncidentService;
 import com.bartosz.service.UserService;
+import com.google.maps.model.LatLng;
+
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -24,6 +28,9 @@ public class DataLoader implements ApplicationRunner {
 	
 	@Autowired
 	PasswordEncoder passEnc;
+	
+	@Autowired
+	IncidentService incidentService;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -44,6 +51,11 @@ public class DataLoader implements ApplicationRunner {
 		userService.addUser(pat);
 		User admin = new User("admin@email.com", passEnc.encode("adminPass"), "Admin", "Admin", 123456789, LocalDateTime.now(), adminRole, true);
 		userService.addUser(admin);
+		
+		Incident i1 = new Incident("Breakdown", new LatLng(51.88896136746316, -8.506700992584229), admin);
+		incidentService.addIncident(i1);
+		Incident i2 = new Incident("Accident", new LatLng(51.87466946011214, -8.519092798233032), admin);
+		incidentService.addIncident(i2);
 		
 	}
 

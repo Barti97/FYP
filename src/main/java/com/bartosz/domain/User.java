@@ -11,7 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
-import com.bartosz.domain.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class User {
 	@Column(nullable = false)
 	private LocalDateTime DoB;
 
+	@JsonIgnore
 	@Column(nullable=false)
 	private String password;
 

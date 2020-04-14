@@ -3,7 +3,11 @@ package com.bartosz.requests;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bartosz.domain.Incident;
 import com.bartosz.domain.PlaceResponse;
+import com.bartosz.service.IncidentService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,21 +16,31 @@ import com.google.maps.model.LatLng;
 
 public class ORSRequests {
 
-	public static String getDirections(LatLng source, LatLng destination, boolean avoidPlaces, String preferenceIn) {
+	public static String getDirections(LatLng source, LatLng destination, boolean avoidPlaces, String preferenceIn, List<Incident> allIncidents) {
 		System.out.println("Preference:" + preferenceIn);
 		String url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
 		String coordinates = "\"coordinates\":[[" + source.lng + "," + source.lat + "],[" + destination.lng + "," + destination.lat + "]]";
-		String incident = "{\"type\": \"Polygon\",\"coordinates\": [[[-8.491230010986328,51.87557691274962],[-8.489534854888916,51.87557691274962],[-8.489534854888916,51.87612005082275],[-8.491230010986328,51.87612005082275],[-8.491230010986328,51.87557691274962]]]}";
+		
+		String incidents = "";
+		if (allIncidents != null && allIncidents.size() > 0) {
+			for (Incident i : allIncidents) {
+				String incident = "["+i.drawPolygon()+"]" ;
+				incidents += incident + ", ";
+			}
+			incidents = incidents.substring(0, incidents.lastIndexOf(","));
+		}
+		
+		System.out.println(incidents);
 		String preference = "\"preference\":\""+ preferenceIn +"\"";
 		String param = "";
 		
-		if(avoidPlaces == true) {
-			param = "{" + coordinates + ",\"options\":{\"avoid_polygons\":" + incident + "},"+ preference +"}";
+		if(avoidPlaces == true && !incidents.isEmpty()) {
+			param = "{" + coordinates + ",\"options\":{\"avoid_polygons\":{\"type\": \"MultiPolygon\",\"coordinates\": [" + incidents + "]}},"+ preference +"}";
 		}
 		else {
 			param = "{" + coordinates + ","+ preference +"}";
 		}
-		
+				
 		System.out.println(param);
 		
 		String resDirections = OpenRouteServiceAPI.executePost(url, param);
