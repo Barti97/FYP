@@ -1,6 +1,6 @@
 package com.bartosz.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,9 +37,9 @@ public class User {
 	private String surname;
 
 	@Column(nullable = false)
-	private LocalDateTime DoB;
+	private LocalDate DoB;
 
-	@JsonIgnore
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@Column(nullable=false)
 	private String password;
 
@@ -56,7 +57,7 @@ public class User {
 	@Column(nullable = false)
 	private boolean enabled;
 
-	public User(String email, String password, String name, String surname, int phoneNumber, LocalDateTime dob, Role role, boolean enabled) {
+	public User(String email, String password, String name, String surname, int phoneNumber, LocalDate dob, Role role, boolean enabled) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
@@ -66,13 +67,24 @@ public class User {
 		this.userRole = role;
 		this.enabled = enabled;
 	}
+	
+	public User(String email, String password, String name, String surname, int phoneNumber, LocalDate dob) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.phoneNumber = phoneNumber;
+		this.DoB = dob;
+		this.userRole = null;
+		this.enabled = true;
+	}
 
 	public String toString() {
 		String output = "User: ";
 		if (this.userId != 0) {
 			output += this.userId;
 		}
-		output += "\n\tName: " + this.name + "\n\tSurname: " + this.surname + "\n\tEmail: " + this.email + "\n\tPhone: "
+		output += "\n\tName: " + this.name + "\n\tSurname: " + this.surname + "\n\tEmail: " + this.email + "\n\tPass: " + this.password + "\n\tPhone: "
 				+ this.phoneNumber + "\n\tActive: ";
 		if (this.enabled) {
 			output += "Yes";

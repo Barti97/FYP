@@ -48,5 +48,13 @@ public class IncidentServiceImplementation implements IncidentService{
 	public boolean isIncidentInDatabase(int id) {
 		return dao.existsById(id);
 	}
+	
+	@Override
+	public boolean updateIncident(int id, int input) {
+		if (isIncidentInDatabase(id)) {
+			return dao.updateIncident(id, input) == 1;
+		}
+		return false;
+	};
 
 }

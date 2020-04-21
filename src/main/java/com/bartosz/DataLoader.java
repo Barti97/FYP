@@ -1,6 +1,6 @@
 package com.bartosz;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -43,18 +43,18 @@ public class DataLoader implements ApplicationRunner {
 		Role adminRole = new Role("admin@email.com", "ROLE_ADMIN");
 		roleDao.save(adminRole);
 		
-		User john = new User("john@email.com", passEnc.encode("johnPass"), "John", "Johnson", 871234567, LocalDateTime.now(), johnRole, true);
+		User john = new User("john@email.com", passEnc.encode("johnPass"), "John", "Johnson", 871234567, LocalDate.now(), johnRole, true);
 		userService.addUser(john);
-		User mary = new User("mary@email.com", passEnc.encode("maryPass"), "Mary", "Cook", 857654321, LocalDateTime.now(), maryRole, true);
+		User mary = new User("mary@email.com", passEnc.encode("maryPass"), "Mary", "Cook", 857654321, LocalDate.now(), maryRole, true);
 		userService.addUser(mary);
-		User pat = new User("pat@email.com", passEnc.encode("patPass"), "Pat", "Murphy", 865431267, LocalDateTime.now(), patRole, true);
+		User pat = new User("pat@email.com", passEnc.encode("patPass"), "Pat", "Murphy", 865431267, LocalDate.now(), patRole, true);
 		userService.addUser(pat);
-		User admin = new User("admin@email.com", passEnc.encode("adminPass"), "Admin", "Admin", 123456789, LocalDateTime.now(), adminRole, true);
+		User admin = new User("admin@email.com", passEnc.encode("adminPass"), "Admin", "Admin", 123456789, LocalDate.now(), adminRole, true);
 		userService.addUser(admin);
 		
-		Incident i1 = new Incident("Breakdown", new LatLng(51.88896136746316, -8.506700992584229), admin);
+		Incident i1 = new Incident("Breakdown", new LatLng(51.88896136746316, -8.506700992584229), 0 , admin);
 		incidentService.addIncident(i1);
-		Incident i2 = new Incident("Accident", new LatLng(51.87466946011214, -8.519092798233032), admin);
+		Incident i2 = new Incident("Accident", new LatLng(51.87466946011214, -8.519092798233032), 0 , admin);
 		incidentService.addIncident(i2);
 		
 	}

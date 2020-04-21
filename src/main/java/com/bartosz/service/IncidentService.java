@@ -11,5 +11,6 @@ public interface IncidentService {
 	Incident addIncident(Incident incident);
 	boolean removeIncident(int id);
 	boolean isIncidentInDatabase(int id);
+	boolean updateIncident(int id, int input);
 	
 }

@@ -36,13 +36,17 @@ public class Incident {
 	@Column(nullable = false)
 	private double lng;
 	
+	@Column(nullable = false)
+	private int reportNumber;
+	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="owner")
 	private User owner;
 
-	public Incident(String typeOfIncident, LatLng incidentCoordinates, User owner) {
+	public Incident(String typeOfIncident, LatLng incidentCoordinates, int reportNumber,  User owner) {
 		this.typeOfIncident = typeOfIncident;
+		this.reportNumber = reportNumber;
 		this.owner = owner;
 
 		if(incidentCoordinates != null) {
@@ -85,5 +89,6 @@ public class Incident {
 	private String latLngAsArray(LatLng coord) {
 		return "[" + coord.lng + "," + coord.lat + "]";
 	}
+	
 
 }
