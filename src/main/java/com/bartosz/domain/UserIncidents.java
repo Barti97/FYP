@@ -1,5 +1,7 @@
 package com.bartosz.domain;
 
+import java.util.List;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -13,7 +15,7 @@ public class UserIncidents {
 
 	@OneToMany
 	@JoinColumn
-	private Routes incidentId;
+	private List<Incident> incidentId;
 
 	public String toString() {
 		String output = "User: " + userId + "\n\tIncident: " + this.incidentId;

@@ -1,6 +1,7 @@
 package com.bartosz.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -53,6 +56,10 @@ public class User {
 	@OneToOne
 	@JoinColumn
 	private Role userRole;
+	
+	@OneToMany(mappedBy = "owner")
+	@JsonIgnore
+	private List<Route> routes;
 
 	@Column(nullable = false)
 	private boolean enabled;
@@ -66,6 +73,7 @@ public class User {
 		this.DoB = dob;
 		this.userRole = role;
 		this.enabled = enabled;
+		this.routes = null;
 	}
 	
 	public User(String email, String password, String name, String surname, int phoneNumber, LocalDate dob) {
@@ -77,6 +85,7 @@ public class User {
 		this.DoB = dob;
 		this.userRole = null;
 		this.enabled = true;
+		this.routes = null;
 	}
 
 	public String toString() {

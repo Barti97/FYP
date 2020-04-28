@@ -1,5 +1,7 @@
 package com.bartosz.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +42,10 @@ public class Incident {
 	private int reportNumber;
 	
 	@JsonIgnore
+	@Column(nullable = false)
+	private LocalDateTime timeAdded;
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="owner")
 	private User owner;
@@ -56,6 +62,7 @@ public class Incident {
 			this.lat = 0.0;
 			this.lng = 0.0;
 		}
+		this.timeAdded = LocalDateTime.now();
 	}
 
 	public String toString() {

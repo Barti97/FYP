@@ -49,6 +49,7 @@ public class ORSRequests {
 		JsonObject features = jsonObject.getAsJsonArray("features").get(0).getAsJsonObject();
 		JsonObject geometry = features.getAsJsonObject("geometry");
 		JsonArray coords = geometry.getAsJsonArray("coordinates");
+		System.out.println(coords.toString());
 		return coords.toString();
 	}
 

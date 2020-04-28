@@ -1,0 +1,123 @@
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(26,140,255);
+    border-radius: 7px;
+    border: black, solid, 3px;
+}
+
+body{
+    background-color: #f5fff0;
+}
+
+main{
+    align-items: center;
+    width: 80%;
+    padding: 40px;
+}
+.head{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+button{
+    height: 30px;
+    width: 80px;
+    border-radius: 7px;
+    border:0px;
+    background-color: white;
+}
+button:hover{
+    background-color: rgb(6, 104, 202);
+    color:white;
+    border: 0px;
+    transition-duration:0.5s;
+}
+h1{
+    display: flex;
+    align-content: center;
+    top: 0;
+}
+.input{
+    height: 30px;
+    border-radius: 7px;
+    border: 0px;
+    padding-left: 8px;
+}
+.search{
+    padding: 40px;
+}
+.logout{
+    padding: 30px;
+}
+.search-button{
+    height: 30px;
+    width: 80px;
+    border-radius: 7px;
+    background-color: white;
+    border: 0px;
+}
+.search-button:hover{
+    background-color:  rgb(6, 104, 202);
+    color:white;
+    border: 0px;
+    transition-duration:0.5s;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+table{
+    align-items: center;
+    width: 100%;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    right:0;
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    align-items: center;
+}
+
+.email{
+    color:black;
+    text-decoration: none;
+}
+.email:checked{
+    color:black;
+    text-decoration: none;
+}
+.email:visited{
+    color:black;
+    text-decoration: none;
+}
+.view{
+    color:dodgerblue;
+    text-decoration: dodgerblue;
+}
+
+.language{
+    color:black;
+    text-decoration: none;
+}
+.language:checked{
+    color:black;
+    text-decoration: none;
+}
+.language:visited{
+    color:black;
+    text-decoration: none;
+}
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+</head>
+
+<body>
+    <header>
+<!--
+        <div class="search">
+        	<form method="post" th:action="@{'/search'}" th:object="${searchForm}">
+	            <input type="text" id="searchPhrase" name="searchPhrase" class="form-control" th:placeholder="#{header.keyword}" required="true" th:field="*{searchPhrase}">
+                <span th:if="${valueError}" class="error" th:text="#{newbid.valueError}" >Error</span>
+        	    <button class="bid-button" type="submit" th:text="#{header.search}">Search</button>
+	        </form>
+	        <a th:if="${showHome}" th:href="@{'/index'}"><button class="home-btm" th:text="#{header.home}">Home</button></a>
+        </div>
+-->
+        <div>
+           <!-- <h1 th:text="#{header.jobAds}">ADMIN PANEL</h1> -->
+            <h1 th>ADMIN PANEL</h1>
+        </div>
+<!--
+        <div class="logout">
+            <h4><span th:text="#{header.hello}">Hello</span> <a class="email" th:text="${user.email}" th:href="@{'/account'}">email</a></h4>
+            <a th:href="@{'/logout'}"><button th:text="#{header.logout}">Log Out</button></a>
+        </div>
+-->
+    </header>
+    <main>
+        <table>
+        <!--
+            <tr>
+                <th th:text="#{user.id}">ID</th>
+                <th th:text="#{user.name}">Name</th>
+                <th th:text="#{user.surname}">Surname</th>
+                <th th:text="#{user.DoB}">Date of Birth</th>
+                <th th:text="#{user.email}">Email</th>
+                <th th:text="#{user.phoneNumber}">Phone No.</th>
+                <th th:text="#{user.enabled}">Active</th>
+                <th></th>
+            </tr>
+            -->
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Phone No.</th>
+                <th>Active</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <th th:text="${user.userId}">ID</th>
+                <th th:text="${user.name}">Name</th>
+                <th th:text="${user.surname}">Surname</th>
+                <th th:text="${user.DoB}">Date of Birth</th>
+                <th th:text="${user.email}">Email</th>
+                <th th:text="${user.phoneNumber}">Phone No.</th>
+                <th th:text="${user.enabled}">Active</th>
+<!--                <td align='center'><a class="view" th:href="@{'/job/' + ${job.jobId}}" th:text="#{job.view}">View</a></td>-->
+            </tr>
+        </table>
+    </main>
+</body>
+
+</html>

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartosz.domain.Incident;
+import com.bartosz.domain.Route;
 import com.bartosz.requests.ORSRequests;
 import com.bartosz.service.IncidentService;
+import com.bartosz.service.RouteService;
 import com.google.maps.model.LatLng;
 
 @Service
@@ -15,6 +17,9 @@ public class ServerControllerImplementation implements ServerController {
 	
 	@Autowired
 	IncidentService incidentService;
+	
+	@Autowired
+	RouteService routeService;
 	
 	public double calculateDistance(LatLng p1, LatLng p2) {
 
@@ -47,11 +52,12 @@ public class ServerControllerImplementation implements ServerController {
 	
 	public Incident checkClosestIncident(LatLng location) {
 		List<Incident> incidents = incidentService.findAllIncidents();
-//		for XD;
 		double distance = Double.MAX_VALUE;
 		Incident id = null;
 		for (Incident inc : incidents) {
 			double newDistance = calculateDistance(location, new LatLng(inc.getLat(), inc.getLng()));
+			System.out.println(distance);
+			System.out.println(newDistance);
 			if (newDistance < distance ) {
 				distance = newDistance;
 				id = inc;
@@ -65,5 +71,17 @@ public class ServerControllerImplementation implements ServerController {
 		}
 		
 	}
+	
+	public String saveRoute(Route route) {
+		
+		System.out.println(route.getOwner());
+		System.out.println(route.getStart_lat());
+		Route r = routeService.addRoute(new Route(route.getTitle(), new LatLng(route.getStart_lat(), route.getStart_lng()), new LatLng(route.getEnd_lat(), route.getEnd_lng()), route.getOwner()));
+		if (r == null) {
+			return "{\"result\":\"FAILED TO SAVE INCIDENT\"}";
+		}
+
+		return "{\"result\":\"SUCCESS\"}";
+	};
 
 }

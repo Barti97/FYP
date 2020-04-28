@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bartosz.dao.RouteDAO;
 import com.bartosz.domain.AddressRequest;
 import com.bartosz.domain.DirectionsRequest;
 import com.bartosz.domain.Incident;
@@ -19,6 +20,7 @@ import com.bartosz.domain.IncidentsRequest;
 import com.bartosz.domain.LoginRequest;
 import com.bartosz.domain.PlaceResponse;
 import com.bartosz.domain.Role;
+import com.bartosz.domain.Route;
 import com.bartosz.domain.User;
 import com.bartosz.requests.ORSRequests;
 import com.bartosz.service.IncidentService;
@@ -44,14 +46,17 @@ public class RestController {
 	
 	@Autowired
 	ServerController serverController;
+	
+	@Autowired
+	RouteDAO dao;
 
 	@PostMapping(path = "/directions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String directions(@RequestBody DirectionsRequest request) {
 		return serverController.directions(request.getStart(), request.getEnd(), request.isAvoidIncidents(), request.getPreference());
 	}
 
-	@PostMapping(path = "/incidents", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String incidents(@RequestBody IncidentsRequest request) {
+	@PostMapping(path = "/incident/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String saveIncident(@RequestBody IncidentsRequest request) {
 		
 		int reportNumber = 0; 
 		
@@ -68,8 +73,8 @@ public class RestController {
 		return "{\"result\":\"SUCCESS\"}";
 	}
 
-	@GetMapping(path = "/getIncidents", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Incident> incidents() {
+	@GetMapping(path = "/incident/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Incident> getAllIncidents() {
 		return incidentService.findAllIncidents();
 
 	}
@@ -77,9 +82,9 @@ public class RestController {
 	@PostMapping(path = "/autocompleteAddress", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PlaceResponse> autocompleteAddress(@RequestBody AddressRequest request) {
 		List<PlaceResponse> res = ORSRequests.autocompletePlace(request.getAddress());
-		for (PlaceResponse pr : res) {
-			System.out.println(pr.getAddress());
-		}
+//		for (PlaceResponse pr : res) {
+//			System.out.println(pr.getAddress());
+//		}
 		if (res == null) {
 			return null;
 		}
@@ -89,7 +94,7 @@ public class RestController {
 
 	@PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public User login(@RequestBody LoginRequest request, Principal principal) {
-		System.out.println(principal.getName());
+//		System.out.println(principal.getName());
 		if (request.getUsername().equals(principal.getName())) {
 			return userService.findByEmail(principal.getName());
 		} else {
@@ -99,7 +104,7 @@ public class RestController {
 
 	@PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String register(@RequestBody User user) {
-		System.out.println(user);
+//		System.out.println(user);
 		if (!userService.isUserInDatabase(user.getEmail())) {
 			Role userRole = roleService.addRole(new Role(user.getEmail(), "ROLE_USER"));
 			if (userRole != null) {
@@ -118,16 +123,6 @@ public class RestController {
 	@PostMapping(path = "/incident/proximity", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Incident checkClosestIncident(@RequestBody LatLng location) {
 		return serverController.checkClosestIncident(location);
-				
-//		jakieś coś . oblicz odległość do incidentuf (XD)
-//		zwróć najbliższy
-//		return incidentService.findIncidentById(1);
-//		System.out.println(incident.getIncidentId());
-//		if (incidentService.isIncidentInDatabase(incident.getIncidentId())) {
-//			return 
-//		} else {
-//			return null;
-//		}
 	}
 	
 	@PostMapping(path = "/incident/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -144,6 +139,28 @@ public class RestController {
 			}
 		}
 		return "error";
+	}
+	
+	@PostMapping(path = "/route/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String saveRoute(@RequestBody Route route, Principal principal) {
+		System.out.println(route);
+		User user = userService.findByEmail(principal.getName());
+		if (user != null) {
+//		System.out.println(route.getTitle() + route.getStart_lat() + route.getStart_lng());
+			route.setOwner(user);
+			return serverController.saveRoute(route);
+		}
+		return "error";
+	}
+	
+	@PostMapping(path = "/route/favourites", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Route> favouriteRoutes(Principal user) {
+		System.out.println("FAVOURITE");
+		User u = userService.findByEmail(user.getName());
+		if (u != null) {
+			return dao.findRoutesByOwner(u.getUserId());
+		}
+		return null;
 	}
 	
 

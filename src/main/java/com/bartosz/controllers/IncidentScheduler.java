@@ -14,15 +14,23 @@ import com.bartosz.service.IncidentService;
 public class IncidentScheduler {
 
 	@Autowired
-	IncidentService jobService;
+	IncidentService incidentService;
 
-	@Scheduled(fixedRate = 10000)
-	public void checkForExpiredJobs() {
-		List<Incident> allIncidents = jobService.findAllIncidents();
+	@Scheduled(fixedRate = 30000)
+	public void checkForExpiredIncidents() {
+		List<Incident> allIncidents = incidentService.findAllIncidents();
 		for (Incident i : allIncidents) {
-//			if (i.getDate().isBefore(LocalDateTime.now().minusDays(20))) {
-//				jobService.updateJobActive(j.getJobId(), false);
-//			}
+			if (i.getTimeAdded().isBefore(LocalDateTime.now().minusMinutes(10)) && i.getReportNumber() < 5) {
+				incidentService.removeIncident(i.getIncidentId());
+			} else if (i.getTimeAdded().isBefore(LocalDateTime.now().minusMinutes(30)) && i.getReportNumber() < 10) {
+				incidentService.removeIncident(i.getIncidentId());
+			} else if (i.getTimeAdded().isBefore(LocalDateTime.now().minusHours(1)) && i.getReportNumber() < 20) {
+				incidentService.removeIncident(i.getIncidentId());
+			} else if (i.getTimeAdded().isBefore(LocalDateTime.now().minusHours(3)) && i.getReportNumber() < 50) {
+				incidentService.removeIncident(i.getIncidentId());
+			} else if (i.getTimeAdded().isBefore(LocalDateTime.now().minusHours(8)) && i.getReportNumber() < 100) {
+				incidentService.removeIncident(i.getIncidentId());
+			}
 		}
 	}
 

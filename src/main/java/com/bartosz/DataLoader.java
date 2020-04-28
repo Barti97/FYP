@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 import com.bartosz.dao.RoleDAO;
 import com.bartosz.domain.Incident;
 import com.bartosz.domain.Role;
+import com.bartosz.domain.Route;
 import com.bartosz.domain.User;
 import com.bartosz.service.IncidentService;
+import com.bartosz.service.RouteService;
 import com.bartosz.service.UserService;
 import com.google.maps.model.LatLng;
 
@@ -31,6 +33,9 @@ public class DataLoader implements ApplicationRunner {
 	
 	@Autowired
 	IncidentService incidentService;
+	
+	@Autowired
+	RouteService routeService;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -56,7 +61,17 @@ public class DataLoader implements ApplicationRunner {
 		incidentService.addIncident(i1);
 		Incident i2 = new Incident("Accident", new LatLng(51.87466946011214, -8.519092798233032), 0 , admin);
 		incidentService.addIncident(i2);
+		Incident i3 = new Incident("Accident", new LatLng(51.883451, -8.464376), 0 , admin);
+		incidentService.addIncident(i3);
 		
+		Route r1 = new Route("Route1", new LatLng(51.8853874206543, -8.399438858032227), new LatLng(51.88398742675781, -8.534095764160156), userService.findById(1)); //nie chuj tylko cipa XDDDDDDD //chyba się nie znasz mordo
+		routeService.addRoute(r1);
+		Route r2 = new Route("Route2", new LatLng(51.8853874206543, -8.399438858032227), new LatLng(51.88398742675781, -8.534095764160156), userService.findById(1)); //nie chuj tylko cipa XDDDDDDD //chyba się nie znasz mordo
+		routeService.addRoute(r2);
+		Route r3 = new Route("Route3", new LatLng(51.8853874206543, -8.399438858032227), new LatLng(51.88398742675781, -8.534095764160156), userService.findById(2)); //nie chuj tylko cipa XDDDDDDD //chyba się nie znasz mordo
+		routeService.addRoute(r3);
+		Route r4 = new Route("Route4", new LatLng(51.8853874206543, -8.399438858032227), new LatLng(51.88398742675781, -8.534095764160156), userService.findById(1)); //nie chuj tylko cipa XDDDDDDD //chyba się nie znasz mordo
+		routeService.addRoute(r4);
 	}
 
 }
