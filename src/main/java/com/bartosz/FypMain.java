@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FypApplication implements CommandLineRunner  {
+public class FypMain implements CommandLineRunner  {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FypApplication.class, args);
+		SpringApplication.run(FypMain.class, args);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.bartosz.domain;
+package com.bartosz.clientRequests;
 
 import com.google.maps.model.LatLng;
 

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bartosz.clientRequests.PlaceResponse;
 import com.bartosz.domain.Incident;
-import com.bartosz.domain.PlaceResponse;
 import com.bartosz.service.IncidentService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
