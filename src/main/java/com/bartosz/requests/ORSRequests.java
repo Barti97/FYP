@@ -72,7 +72,7 @@ public class ORSRequests {
 
 //	public static String findPlace(String searchPhrase) {
 //		return OpenRouteServiceAPI.executeGet(
-//				"https://api.openrouteservice.org/geocode/autocomplete?api_key=5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33&text="
+//				"https://api.openrouteservice.org/geocode/autocomplete?api_key=***********************************************************&text="
 //						+ searchPhrase.replace(" ", "%20") + "&boundary.country=IE&layers=address,venue,neighbourhood");
 //	}
 	
@@ -88,7 +88,7 @@ public class ORSRequests {
 //	}
 	
 	public static List<PlaceResponse> autocompletePlace(String searchPhrase) {
-        String searchRes = OpenRouteServiceAPI.executeGet("https://api.openrouteservice.org/geocode/autocomplete?api_key=5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33&text=" 
+        String searchRes = OpenRouteServiceAPI.executeGet("https://api.openrouteservice.org/geocode/autocomplete?api_key=***********************************************************&text=" 
         												   + searchPhrase.replace(" ", "%20") + "&boundary.country=IE&layers=address,venue,neighbourhood");
         return parseAutocompleteSearch(searchRes);
     }
