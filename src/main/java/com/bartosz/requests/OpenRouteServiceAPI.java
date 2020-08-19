@@ -20,7 +20,7 @@ public class OpenRouteServiceAPI {
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 			connection.setRequestProperty("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8");
-			connection.setRequestProperty("Authorization", "5b3ce3597851110001cf62487948acef386c48808312fcdaf6978e33");
+			connection.setRequestProperty("Authorization", "***************************************************");
 			connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
 			connection.setRequestProperty("Content-Language", "en-US");
 
